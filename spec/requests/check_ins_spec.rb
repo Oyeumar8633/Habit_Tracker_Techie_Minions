@@ -18,6 +18,41 @@ RSpec.describe "CheckIns", type: :request do
     }
   end
 
+  let(:check_in) { habit.check_ins.create!(check_on: Date.today) }
+
+describe "GET /check_ins/:id" do
+  it "returns success" do
+    get check_in_path(check_in)
+    expect(response).to have_http_status(:success)
+  end
+end
+
+describe "GET /check_ins/:id/edit" do
+  it "returns success" do
+    get edit_check_in_path(check_in)
+    expect(response).to have_http_status(:success)
+  end
+end
+
+describe "PATCH /check_ins/:id" do
+  it "updates the check_in" do
+    patch check_in_path(check_in), params: { check_in: { check_on: Date.yesterday } }
+    expect(check_in.reload.check_on).to eq(Date.yesterday)
+    expect(response).to redirect_to(check_in_path(check_in))
+  end
+end
+
+describe "DELETE /check_ins/:id" do
+  it "destroys the check_in" do
+    check_in
+    expect {
+      delete check_in_path(check_in)
+    }.to change(CheckIn, :count).by(-1)
+
+    expect(response).to redirect_to(habit_path(habit))
+  end
+end
+
   describe "GET /habits/:habit_id/check_ins/new" do
     it "returns success" do
       get new_habit_check_in_path(habit)
