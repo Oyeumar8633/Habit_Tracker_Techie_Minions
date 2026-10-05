@@ -75,4 +75,17 @@ RSpec.describe "Habits", type: :request do
       expect(response).to redirect_to(habits_path)
     end
   end
+
+  describe "GET /habits.json" do
+    it "returns habits as JSON" do
+      habit
+      get habits_path(format: :json)
+  
+      expect(response).to have_http_status(:success)
+      expect(response.media_type).to eq("application/json")
+  
+      json = JSON.parse(response.body)
+      expect(json.first["name"]).to eq("Exercise")
+    end
+  end
 end
