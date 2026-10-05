@@ -1,0 +1,22 @@
+<%= form_with(model: (@habit ? [@habit, check_in] : check_in)) do |form| %>
+  <% if check_in.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(check_in.errors.count, "error") %> prohibited this check_in from being saved:</h2>
+
+      <ul>
+        <% check_in.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :check_on, style: "display: block" %>
+    <%= form.date_field :check_on %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @habit %>
+
+<h2>Check-ins</h2>
+<ul>
+  <% @habit.check_ins.each do |check_in| %>
+    <li><%= check_in.check_on %></li>
+  <% end %>
+</ul>
+
+<% if @habit.check_ins.empty? %>
+  <p>No check-ins found</p>
+<% end %>
+
+<div>
+  <%= link_to "Add a new check in", new_habit_check_in_path(@habit) %> |
+  <%= link_to "Edit this habit", edit_habit_path(@habit) %> |
+  <%= link_to "Back to habits", habits_path %>
+
+  <%= button_to "Destroy this habit", @habit, method: :delete %>
+</div>
